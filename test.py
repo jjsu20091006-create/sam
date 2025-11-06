@@ -16,6 +16,7 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import re
 import matplotlib.font_manager as fm
+from matplotlib import rc
 import platform
 
 # 한글 폰트 설정 (예: 맑은 고딕)
