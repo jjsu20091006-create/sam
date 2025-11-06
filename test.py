@@ -36,17 +36,22 @@ if platform.system() == 'Linux':
 # 헬퍼 함수들
 # ------------------------------------------------------------
 
-def smart_read_csv(path: Path):
-    """인코딩을 자동으로 감지하며 CSV 읽기"""
-    for enc in ["utf-8", "cp949", "euc-kr"]:
-        try:
-            df = pd.read_csv(path, encoding=enc)
-            st.info(f"✅ CSV loaded with encoding='{enc}'")
-            return df
-        except Exception:
-            continue
-    st.error("❌ CSV 파일을 읽을 수 없습니다. 인코딩을 확인하세요.")
-    return None
+def smart_read_csv():
+    # """인코딩을 자동으로 감지하며 CSV 읽기"""
+    # for enc in ["utf-8", "cp949", "euc-kr"]:
+    #     try:
+    #         df = pd.read_csv(path, encoding=enc)
+    #         st.info(f"✅ CSV loaded with encoding='{enc}'")
+    #         return df
+    #     except Exception:
+    #         continue
+    # st.error("❌ CSV 파일을 읽을 수 없습니다. 인코딩을 확인하세요.")
+    # return None
+    if platform.system() == 'Linux':
+        df = pd.read_csv('2023.csv', encoding='CP949')
+    else:
+        df = pd.read_csv('C:\\Users\\admin\\Downloads\\2023.csv', encoding='CP949')
+    return df
 
 def clean_column_names(df):
     """컬럼 이름 정리"""
@@ -116,22 +121,22 @@ st.title("📊 CSV 데이터 분석 앱")
 st.caption("Python + Streamlit 기반 | 자동 인코딩 감지 + 기본 통계 + 시각화")
 
 # 파일 업로드
-uploaded_file = st.file_uploader("분석할 CSV 파일을 업로드하세요", type=["csv"])
+# uploaded_file = st.file_uploader("분석할 CSV 파일을 업로드하세요", type=["csv"])
 
-if uploaded_file:
-    temp_path = Path("uploaded.csv")
-    with open(temp_path, "wb") as f:
-        f.write(uploaded_file.read())
-    df = smart_read_csv(temp_path)
-else:
-    default_path = Path(r"C:\Users\admin\Desktop\ㅇㅇㅇㅇ\2023년 정보화통계조사_마이크로데이터.csv")
-    if default_path.exists():
-        df = smart_read_csv(default_path)
-        st.info("📁 기본 파일을 불러왔습니다.")
-    else:
-        st.warning("⚠️ CSV 파일을 업로드하거나, 기본 경로에 파일을 두세요.")
-        df = None
-
+# if uploaded_file:
+#     temp_path = Path("uploaded.csv")
+#     with open(temp_path, "wb") as f:
+#         f.write(uploaded_file.read())
+#     df = smart_read_csv(temp_path)
+# else:
+#     default_path = Path(r"C:\Users\admin\Desktop\ㅇㅇㅇㅇ\2023년 정보화통계조사_마이크로데이터.csv")
+#     if default_path.exists():
+#         df = smart_read_csv(default_path)
+#         st.info("📁 기본 파일을 불러왔습니다.")
+#     else:
+#         st.warning("⚠️ CSV 파일을 업로드하거나, 기본 경로에 파일을 두세요.")
+#         df = None
+df = smart_read_csv()
 # ------------------------------------------------------------
 # 데이터 분석
 # ------------------------------------------------------------
